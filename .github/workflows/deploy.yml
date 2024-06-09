@@ -51,6 +51,9 @@ jobs:
           name: production-files
           path: ./dist
 
+      - name: Copy README.md to build
+        run: cp README.md dist
+
   deploy:
     name: Deploy
     needs: build
