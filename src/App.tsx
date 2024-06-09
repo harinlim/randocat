@@ -1,29 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useCallback, useEffect, useState } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [catImageUrl, setCatImageUrl] = useState('')
+  const [catFact, setCatFact] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const getRandomCat = useCallback(async () => {
+    setIsLoading(true)
+
+    const [imageResponse, factResponse] = await Promise.all([
+      fetch('https://cataas.com/cat', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'image/jpeg',
+        },
+      }).then(response => response.blob()),
+      fetch('https://meowfacts.herokuapp.com/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(response => response.json()) as Promise<{ data: string[] }>,
+    ])
+
+    setCatImageUrl(URL.createObjectURL(imageResponse))
+    setCatFact(factResponse.data[0])
+    setIsLoading(false)
+  }, [])
+
+  // Note: strict mode will render this twice on mount
+  useEffect(() => {
+    void getRandomCat()
+  }, [getRandomCat])
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
+    <main>
+      <h1>Random Cats!</h1>
+
+      {catImageUrl && (
+        <img
+          src={catImageUrl}
+          style={{ maxHeight: '600px', opacity: isLoading ? '50%' : undefined }}
+          alt="Random cat"
+        />
+      )}
+
+      {catFact && (
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          <b>Fact:&nbsp;</b>
+          <span>{catFact}</span>
         </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+      )}
+
+      <button type="button" onClick={getRandomCat} disabled={isLoading}>
+        Get another cat!
+      </button>
+    </main>
   )
 }
 
