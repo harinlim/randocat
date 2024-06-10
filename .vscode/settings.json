@@ -1,0 +1,11 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file", // required to format on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+
+  // Sets VSCode's default TypeScript version to match the project's version for accurate intellisense
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
