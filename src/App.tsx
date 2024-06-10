@@ -34,19 +34,26 @@ function App() {
   }, [getRandomCat])
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <main
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingBottom: '5rem',
+      }}
+    >
       <h1>Random Cats!</h1>
 
       {catImageUrl && (
         <img
           src={catImageUrl}
-          style={{ maxWidth: '90vw', opacity: isLoading ? '50%' : undefined }}
+          style={{ maxHeight: 600, maxWidth: '90vw', opacity: isLoading ? '50%' : undefined }}
           alt="Random cat"
         />
       )}
 
       {catFact && (
-        <p>
+        <p style={{ paddingLeft: '1em', paddingRight: '1em' }}>
           <b>Fact:&nbsp;</b>
           <span>{catFact}</span>
         </p>
