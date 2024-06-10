@@ -5,6 +5,7 @@
 
   color-scheme: light dark;
   color: #213547;
+  -webkit-text-fill-color: #213547;
   background-color: #fff;
 
   font-synthesis: none;
@@ -31,6 +32,7 @@ button {
 @media (prefers-color-scheme: dark) {
   :root {
     color: rgba(255, 255, 255, 0.87);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
   }
   button {
